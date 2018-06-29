@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Info Sim</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            <div id="name">Nombre: {{infoCard.name}}
+            </div>
+        </ion-card-header>
+        <ion-card-content>
+            <div>Estatus: {{infoCard.status}}
+                <ion-icon [name]="myIcon"></ion-icon>
+            </div>
+            <div>Ubicación: {{infoCard.ubicacion}}</div>
+            <div>Id: {{infoCard.id}}</div>
+            <div>consumo: {{infoCard.consumo}} %</div>
+        </ion-card-content>
+        <ion-row text-right>
+            <ion-col>
+              <button id="hide" ion-button clear small color="dark" icon-start (click)="activaOrDesactivaSim()">
+                <ion-icon name='md-add-circle'></ion-icon>
+                {{statusbtn}}
+              </button>
+            </ion-col>
+          </ion-row>
+    </ion-card>
+</ion-content>

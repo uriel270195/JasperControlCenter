@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Sign In</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+<div class="div-login">
+  <form>
+    <p>Username:</p>
+    <input type="text" name="user" [(ngModel)]="user"><br>
+    <p>Password</p>
+    <input type="password" name="password" [(ngModel)]="pass">
+    <p>
+      <button class="sign-in" ion-button color="primary" (click)="Acceder()">Sign In</button>
+    </p>
+  </form>
+</div>
+</ion-content>
