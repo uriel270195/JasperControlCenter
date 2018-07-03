@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Info Sim</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
-    <ion-card>
+<ion-content padding class="color-content">
+    <ion-card color={{colorCard}} class="radius">
         <ion-card-header>
             <div id="name">Nombre: {{infoCard.name}}
             </div>
@@ -17,11 +17,14 @@
             </div>
             <div>Ubicación: {{infoCard.ubicacion}}</div>
             <div>Id: {{infoCard.id}}</div>
-            <div>consumo: {{infoCard.consumo}} %</div>
+            <div>consumo: {{infoCard.consumo}} %
+                <p></p>
+                    <progress id="progressbar" max="100" value={{infoCard.consumo}}> </progress>
+            </div>
         </ion-card-content>
         <ion-row text-right>
             <ion-col>
-              <button id="hide" ion-button clear small color="dark" icon-start (click)="activaOrDesactivaSim()">
+              <button id="hide" ion-button small icon-start (click)="activaOrDesactivaSim()">
                 <ion-icon name='md-add-circle'></ion-icon>
                 {{statusbtn}}
               </button>

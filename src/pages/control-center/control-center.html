@@ -1,12 +1,27 @@
+<ion-menu [content]="content" side="right">
+    <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Configuración</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content class="color-content">
+        <ion-list>
+          <button ion-item *ngFor="let p of pages" (click)="limitconfiguration(p)">
+            {{p.title}}
+          </button>
+        </ion-list>
+      </ion-content>
+</ion-menu>
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Control Center</ion-title>
-  </ion-navbar>
+    <ion-toolbar color="primary">
+      <ion-title>Control Center</ion-title>
+      <button ion-button menuToggle end>
+          <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-toolbar>
 </ion-header>
-<ion-content>
+
+<ion-content class="color-content">
   <div>
     <ion-list>
       <ion-item>
@@ -20,3 +35,5 @@
   <span>{{notifications}}:</span><p></p><p></p>
   <sim-card *ngFor="let cardData of card" [card-data]="cardData" (click)="showInfo(cardData)"></sim-card>
 </ion-content>
+
+<ion-nav id="nav" #content [root]="rootPage"></ion-nav>

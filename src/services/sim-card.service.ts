@@ -9,55 +9,62 @@ export class SimCadService{
         {
             "status":"Activo",
             "name":"uriel",
-            "ubicacion":"x.avatar_url",
+            "ubicacion":"213",
             "id":1,
             "consumo":98
         },
         {
             "status":"Activo",
             "name":"Irvin",
-            "ubicacion":"x.avatar_url",
+            "ubicacion":"3213",
             "id":2,
-            "consumo":90
+            "consumo":56
         },
         {
             "status":"Inactivo",
             "name":"Victor",
-            "ubicacion":"x.avatar_url",
+            "ubicacion":"2313",
             "id":3,
-            "consumo":2
+            "consumo":29
         },
         {
             "status":"Activo",
             "name":"Pepe",
-            "ubicacion":"x.avatar_url",
+            "ubicacion":"321312",
             "id":4,
-            "consumo":2
+            "consumo":43
         },
         {
             "status":"Inactivo",
-            "name":"x.name",
-            "ubicacion":"x.avatar_url",
+            "name":"Niko",
+            "ubicacion":"321321",
             "id":5,
-            "consumo":2
+            "consumo":79
         },
 
         {
-            "status":"Inactivo",
+            "status":"Activo",
             "name":"Tania",
-            "ubicacion":"x.avatar_url",
+            "ubicacion":"321312",
             "id":6,
-            "consumo":2
+            "consumo":90
         },
         {
-            "status":"Activo",
+            "status":"Inactivo",
             "name":"Ivette",
-            "ubicacion":"x.avatar_url",
+            "ubicacion":"321312",
             "id":7,
-            "consumo":2
+            "consumo":14
         },
     ];
+    limiteDatos: number=90;
     constructor(){}
+    getLimite(){
+        return this.limiteDatos
+    }
+    setLimite(limiteDatos:number){
+        this.limiteDatos=limiteDatos;
+    }
     getInfoCard(){
         return from(this.json).pipe(
             map((x:any)=>{

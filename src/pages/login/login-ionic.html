@@ -1,20 +1,23 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Sign In</ion-title>
-  </ion-navbar>
+  <img src="assets/imgs/ControlCenterATT.PNG" height="45"/>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="color-content" padding>
 <div class="div-login">
-  <form>
-    <p>Username:</p>
-    <input type="text" name="user" [(ngModel)]="user"><br>
-    <p>Password</p>
-    <input type="password" name="password" [(ngModel)]="pass">
-    <p>
-      <button class="sign-in" ion-button color="primary" (click)="Acceder()">Sign In</button>
-    </p>
-  </form>
+  <h1>Sign In:</h1><p></p><p></p>
+      <ion-list class="color-content">
+
+          <ion-item>
+            <ion-label floating>Username</ion-label>
+            <ion-input type="text" name="user" [(ngModel)]="user"></ion-input>
+          </ion-item>
+        
+          <ion-item>
+            <ion-label floating>Password</ion-label>
+            <ion-input type="password" name="password" [(ngModel)]="pass"></ion-input>
+          </ion-item>
+        </ion-list>
 </div>
+<button class="sign-in" ion-button color="primary" (click)="Acceder()" block>Sign In</button>
 </ion-content>

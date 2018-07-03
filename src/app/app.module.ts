@@ -12,6 +12,7 @@ import { SimCard } from '../pages/sim-card/sim-card';
 import { SimCadService } from '../services/sim-card.service';
 import { InfoSim } from '../pages/info-sim/info-sim';
 import { LocalNotifications } from "@ionic-native/local-notifications";
+import {ProgressBarModule} from "angular-progress-bar"
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { LocalNotifications } from "@ionic-native/local-notifications";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    ProgressBarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

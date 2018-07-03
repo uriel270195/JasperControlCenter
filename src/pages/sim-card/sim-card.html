@@ -1,11 +1,17 @@
-<ion-card>
+<ion-card color={{colorCard}} class="radius">
     <ion-card-header>
-        <div id="name">Nombre: {{cardData.name}}
-        </div>
+        <ion-row>
+            <ion-col>
+                <div>Nombre: {{cardData.name}}</div>
+            </ion-col>
+            <ion-col></ion-col>
+            <ion-col center text-center>
+                <ion-icon [name]="myIcon" ></ion-icon>
+            </ion-col>
+        </ion-row>
     </ion-card-header>
     <ion-card-content>
         <div id="login">Estatus: {{cardData.status}}
-            <ion-icon [name]="myIcon"></ion-icon>
         </div>
     </ion-card-content>
 </ion-card>
