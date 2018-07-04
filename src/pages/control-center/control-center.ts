@@ -5,7 +5,9 @@ import { filter } from "rxjs/operators";
 import { NavController, Platform, AlertController, NavParams } from 'ionic-angular';
 import { InfoSim } from '../info-sim/info-sim';
 import { LocalNotifications } from "@ionic-native/local-notifications";
+import { DatabaseProvider } from '../../providers/database/database';
 import { LoginIonic } from '../login/login-ionic';
+import { from } from "rxjs/observable/from";
 
 @Component({
   selector: 'control-center',
@@ -16,6 +18,7 @@ export class ControlCenter {
   notifications: string = "Todos";
   itemFilter: Array<string>;
   card: Array<SimCardModel>;
+  private user: string;
   pages: Array<{ title: string, optionMenu: any }>;
   constructor(public navParams: NavParams,
     public alertCtrl: AlertController,
@@ -23,6 +26,7 @@ export class ControlCenter {
     private localNotifications: LocalNotifications,
     private _simCardService: SimCadService,
     public navCtrl: NavController,
+    private sql: DatabaseProvider,
     private localNotific: LocalNotifications) {
 
     this.pages = [
@@ -30,6 +34,13 @@ export class ControlCenter {
       { title: 'Actualizar', optionMenu: 'actualizacion' },
       { title: 'Cerrar sesion', optionMenu: 'log_out' }
     ];
+
+    
+    this.sql.getDato('sesionIniciada').then(val => {
+      from(val).subscribe((x:any)=>{
+        this.user=x.user;
+      })
+    });
 
     this.plt.ready().then(() => {
       this.localNotifications.on('click').subscribe(notific => this.navCtrl
@@ -82,8 +93,8 @@ export class ControlCenter {
         message: "establesca en porcentaje el rango de datos a notificar.",
         inputs: [
           {
-            name: 'limite SIM',
-            placeholder: 'lim',
+            name: 'lim',
+            placeholder: 'limite SIM',
             type: 'number'
           },
         ],
@@ -110,6 +121,7 @@ export class ControlCenter {
       this.filtrar(true);
       break;
       case 'log_out':
+      this.sql.deleteSesion('sesionIniciada',this.user);
       this.navCtrl.setRoot(LoginIonic);
       break;
       default:

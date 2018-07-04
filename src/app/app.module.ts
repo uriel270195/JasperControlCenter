@@ -13,6 +13,8 @@ import { SimCadService } from '../services/sim-card.service';
 import { InfoSim } from '../pages/info-sim/info-sim';
 import { LocalNotifications } from "@ionic-native/local-notifications";
 import {ProgressBarModule} from "angular-progress-bar"
+import { DatabaseProvider } from '../providers/database/database';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import {ProgressBarModule} from "angular-progress-bar"
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    ProgressBarModule
+    ProgressBarModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -41,7 +44,8 @@ import {ProgressBarModule} from "angular-progress-bar"
     loginService,
     SimCadService,
     LocalNotifications,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DatabaseProvider
   ]
 })
 export class AppModule {}
