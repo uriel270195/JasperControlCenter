@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>Info Sim</ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-title>Info Sim</ion-title>
+    </ion-navbar>
 </ion-header>
 
 
@@ -19,16 +19,18 @@
             <div>Id: {{infoCard.id}}</div>
             <div>consumo: {{infoCard.consumo}} %
                 <p></p>
-                    <progress id="progressbar" max="100" value={{infoCard.consumo}}> </progress>
+                <progress id="progressbar" max="100" value={{infoCard.consumo}}> </progress>
             </div>
         </ion-card-content>
         <ion-row text-right>
             <ion-col>
-              <button id="hide" ion-button small icon-start (click)="activaOrDesactivaSim()">
-                <ion-icon name='md-add-circle'></ion-icon>
-                {{statusbtn}}
-              </button>
+                <button id="hideReturn" ion-button small icon-start (click)="returnToControlCenter()">
+                    Regresar
+                </button>
+                <button id="hide" ion-button small icon-start (click)="activaOrDesactivaSim()">
+                    {{statusbtn}}
+                </button>
             </ion-col>
-          </ion-row>
+        </ion-row>
     </ion-card>
 </ion-content>

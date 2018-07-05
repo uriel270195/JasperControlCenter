@@ -13,21 +13,27 @@ export class InfoSim implements OnInit, OnDestroy{
   colorCard:string = 'light';
   myIcon: string;
   statusbtn: string='Activar'
+  notificlic: boolean = false;
   status: string='Activo';
   mensajeAlert : string = `Desea ${this.statusbtn} Esta Tarjeta Sim?`;
   infoCard: SimCardModel;
   constructor( private toastCtrl:ToastController,private alertCtrl:AlertController,private navctrl: NavController,public navParams: NavParams,private _simCardService: SimCadService) {
     this.infoCard = navParams.get('info');
+    this.notificlic = navParams.get('notificlic');
   }
   ngOnInit(){
     this.myIcon = (this.infoCard.status==='Activo')?this.activos():'md-remove-circle';
     this.colorCard = (this.infoCard.consumo>=this._simCardService.getLimite())?'danger':'light';
+    //manda el alerta cuando se da clic directamente desde la notificación
+    (this.notificlic)?this.activaOrDesactivaSim():'';
   }
   ngOnDestroy(){}
   activos(){
     //Desactiva boton si su consumo es menos del 90%
     if(this.infoCard.consumo<this._simCardService.getLimite())
       document.getElementById('hide').hidden=true;
+    if(!this.notificlic)
+      document.getElementById('hideReturn').hidden=true;
     this.statusbtn='Desactivar'
     this.mensajeAlert=`Desea ${this.statusbtn} Esta Tarjeta Sim?`;
     this.status='Inactivo';
@@ -56,17 +62,20 @@ export class InfoSim implements OnInit, OnDestroy{
       });
     prompt.present();
   }
+  returnToControlCenter(){
+    this.navctrl.setRoot(ControlCenter,{
+      //se le envia el valor al componente ControlCenter y lo guarda en notNotifiction
+      notNotifiction: false})
+  }
   direccionarToControlCenter(){
     this.mensajeAlert='Estas Seguro?';
     this.indexAlert++;
     (this.indexAlert==1)?
-    this.activaOrDesactivaSim():
-      this.showToast();
+      this.activaOrDesactivaSim():
+    this.showToast();
     }
     showToast() {
-      this.navctrl.setRoot(ControlCenter,{
-        //se le envia el valor al componente ControlCenter y lo guarda en notNotifiction
-        notNotifiction: false})
+      this.returnToControlCenter();
 
       let toast = this.toastCtrl.create({
         message: `Es estatus de la SIM cambio en ${this.status}`,

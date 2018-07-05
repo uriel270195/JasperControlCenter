@@ -27,8 +27,7 @@ export class ControlCenter {
               private localNotifications: LocalNotifications,
               private _simCardService: SimCadService,
               public navCtrl: NavController,
-              private sql: DatabaseProvider,
-              private localNotific: LocalNotifications) {
+              private sql: DatabaseProvider) {
     //lista para el menu de opciones
     this.pages = [
       { title: 'Limite de la SIM', optionMenu: 'limSim' },
@@ -43,8 +42,9 @@ export class ControlCenter {
     //evento de la notificación al dar click en uno
     this.plt.ready().then(() => {
       this.localNotifications.on('click').subscribe(notific => this.navCtrl
-        .push(InfoSim, {
-          info: notific.data
+        .setRoot(InfoSim, {
+          info: notific.data,
+          notificlic: true
         }));
     });
     //Genera lista para el filtro de SIM
@@ -61,9 +61,10 @@ export class ControlCenter {
     this.showCard = this._simCardService.getInfoCard();
     ((this.notifications === 'Todos') ? this.showCard : this.showFiltro(this.showCard)).subscribe(value => {
       if (value.consumo >= this.lim && alertBolean && this.navParams.get('notNotifiction') != false) {
-        this.localNotific.schedule({
+        this.localNotifications.schedule({
+          title: 'Jasper Control Center',
           id: value.id,
-          text: 'Alerta: Exceso de Datos',
+          text: `Alerta: Exceso de Datos en SIM ${value.name}`,
           data: value
         });
       }
