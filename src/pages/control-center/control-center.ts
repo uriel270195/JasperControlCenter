@@ -7,7 +7,6 @@ import { InfoSim } from '../info-sim/info-sim';
 import { LocalNotifications } from "@ionic-native/local-notifications";
 import { DatabaseProvider } from '../../providers/database/database';
 import { LoginIonic } from '../login/login-ionic';
-import { from } from "rxjs/observable/from";
 
 @Component({
   selector: 'control-center',
@@ -19,35 +18,36 @@ export class ControlCenter {
   itemFilter: Array<string>;
   card: Array<SimCardModel>;
   private user: string;
+  private lim: number;
   pages: Array<{ title: string, optionMenu: any }>;
-  constructor(public navParams: NavParams,
-    public alertCtrl: AlertController,
-    private plt: Platform,
-    private localNotifications: LocalNotifications,
-    private _simCardService: SimCadService,
-    public navCtrl: NavController,
-    private sql: DatabaseProvider,
-    private localNotific: LocalNotifications) {
-
+  ///////////////////////////Constructor
+  constructor(public alertCtrl: AlertController,
+              private navParams: NavParams,
+              private plt: Platform,
+              private localNotifications: LocalNotifications,
+              private _simCardService: SimCadService,
+              public navCtrl: NavController,
+              private sql: DatabaseProvider,
+              private localNotific: LocalNotifications) {
+    //lista para el menu de opciones
     this.pages = [
       { title: 'Limite de la SIM', optionMenu: 'limSim' },
       { title: 'Actualizar', optionMenu: 'actualizacion' },
       { title: 'Cerrar sesion', optionMenu: 'log_out' }
     ];
-
-    
-    this.sql.getDato('sesionIniciada').then(val => {
-      from(val).subscribe((x:any)=>{
-        this.user=x.user;
-      })
-    });
-
+    //captura nombre de usuario
+    this.user = _simCardService.getUser();
+    //captura limite de rango de las SIM
+    this.lim = _simCardService.getLimite();
+    _simCardService.setLimite(this.lim);
+    //evento de la notificación al dar click en uno
     this.plt.ready().then(() => {
       this.localNotifications.on('click').subscribe(notific => this.navCtrl
         .push(InfoSim, {
           info: notific.data
         }));
     });
+    //Genera lista para el filtro de SIM
     this.itemFilter = new Array<string>();
     this.itemFilter.push('Todos');
     this.itemFilter.push('Activos');
@@ -55,11 +55,12 @@ export class ControlCenter {
     this.card = new Array<SimCardModel>();
     this.filtrar(true);
   }
+  //filtra las sim por estatus
   filtrar(alertBolean: boolean) {
     this.deleteUser();
     this.showCard = this._simCardService.getInfoCard();
     ((this.notifications === 'Todos') ? this.showCard : this.showFiltro(this.showCard)).subscribe(value => {
-      if (value.consumo >= this._simCardService.getLimite() && alertBolean && this.navParams.get('notNotifiction') != false) {
+      if (value.consumo >= this.lim && alertBolean && this.navParams.get('notNotifiction') != false) {
         this.localNotific.schedule({
           id: value.id,
           text: 'Alerta: Exceso de Datos',
@@ -106,7 +107,9 @@ export class ControlCenter {
             text: 'Save',
             handler: data => {
               if(data.lim < 100){
-                this._simCardService.setLimite(data.lim);
+                this.sql.setLimite(this.user,data.lim);
+                this.lim = data.lim;
+                this._simCardService.setLimite(this.lim);
                 this.filtrar(true);
               }else{
                 alert('Dato no valido');
@@ -121,8 +124,10 @@ export class ControlCenter {
       this.filtrar(true);
       break;
       case 'log_out':
-      this.sql.deleteSesion('sesionIniciada',this.user);
-      this.navCtrl.setRoot(LoginIonic);
+      this.sql.deleteSesion(this.user,this.lim);
+      this.navCtrl.setRoot(LoginIonic,{
+        user: this.user
+      });
       break;
       default:
       alert('Dato incorrecto');

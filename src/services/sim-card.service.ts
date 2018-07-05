@@ -57,13 +57,20 @@ export class SimCadService{
             "consumo":14
         },
     ];
-    limiteDatos: number=90;
+    private limiteDatos: number;
+    private user: string;
     constructor(){}
     getLimite(){
         return this.limiteDatos
     }
     setLimite(limiteDatos:number){
-        this.limiteDatos=limiteDatos;
+        this.limiteDatos=limiteDatos
+    }
+    getUser(){
+        return this.user
+    }
+    setUser(user:string){
+        this.user=user
     }
     getInfoCard(){
         return from(this.json).pipe(
@@ -82,9 +89,8 @@ export class SimCadService{
     handleError(error: any){
         console.log(`Error: ${error}`);
         return Observable.throw(error.json() || 'Server Error');
-        //lo de arriba es igual al de abajo
-        //return Observable.throw(error.json() !=null ? error.json : 'Server Error');//throw es la excepcion de tipo observable
     }
+    //Modifica el estatus de una SIM
     modificStatus(id, status: string){
         this.json[id].status=status;
     }

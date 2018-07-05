@@ -8,12 +8,13 @@ import { SimCadService } from '../../services/sim-card.service';
 })
 export class SimCard implements OnInit, OnDestroy{
   myIcon: string;
-  colorCard:string = 'light';
+  colorCard:string = 'primary';
+  limSim: number;
   @Input('card-data') cardData: SimCardModel;
   constructor(private _serviceCard: SimCadService) {}
   ngOnInit(){
     this.myIcon = (this.cardData.status==='Activo')?'md-add-circle':'md-remove-circle';
-    this.colorCard = (this.cardData.consumo>=this._serviceCard.getLimite())?'danger':'light';
+    this.colorCard = (this.cardData.consumo>=this._serviceCard.getLimite())?'danger':'primary';
   }
   ngOnDestroy(){}
 }
